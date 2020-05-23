@@ -1,4 +1,4 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor, Logger } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,6 +10,10 @@ export class ResponseDataInterceptor implements NestInterceptor {
         if (data && data.responseStatus) {
           return data;
         }
+        Logger.log(
+          `Response: \n ${JSON.stringify(data)}`,
+          'ResponseDataInterceptor',
+        );
         return {
           success: true,
           message: 'Retrieved data successfully',
