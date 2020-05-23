@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ResponseDataInterceptor } from './interceptors/response-data.interceptor';
+import { GroupsModule } from './modules/groups/groups.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ResponseDataInterceptor } from './interceptors/response-data.intercepto
     }),
     UsersModule,
     AuthModule,
+    GroupsModule,
   ],
   controllers: [AppController],
   providers: [

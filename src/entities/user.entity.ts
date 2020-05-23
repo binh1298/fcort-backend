@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { GroupEntity } from './group.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -29,6 +30,9 @@ export class UserEntity {
     nullable: true,
   })
   avatar: string;
+
+  @OneToMany(type => GroupEntity, group => group.user)
+  group: GroupEntity[];
 
   @Column({ default: true })
   isActive: boolean;
