@@ -11,14 +11,14 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get(':id')
+  getUser(@Param('id') id: string) {
+    return this.usersService.findOne(id);
+  }
+
   @Post()
   createUser(@Body() userDto: UserDTO) {
     return this.usersService.create(userDto);
-  }
-
-  @Get(':id')
-  getUser(@Param('id') id: string) {
-    return this.usersService.read(id);
   }
 
   @Put(':id')
