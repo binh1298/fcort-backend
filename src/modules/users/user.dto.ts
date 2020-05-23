@@ -6,3 +6,9 @@ export interface UserDTO {
   fullname: string;
   avatar: string;
 }
+
+export interface UserAuthDTO {
+  email: string;
+  password: string;
+  confirmPassword: string;  
+}
