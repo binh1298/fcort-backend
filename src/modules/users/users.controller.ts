@@ -13,7 +13,7 @@ export class UsersController {
 
   @Get(':id')
   getUser(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.usersService.findById(id);
   }
 
   @Post()
