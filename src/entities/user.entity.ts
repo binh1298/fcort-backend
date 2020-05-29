@@ -31,7 +31,7 @@ export class UserEntity {
   })
   avatar: string;
 
-  @OneToMany(type => GroupEntity, group => group.user)
+  @OneToMany(type => GroupEntity, group => group.creator)
   group: GroupEntity[];
 
   @Column({ default: true })

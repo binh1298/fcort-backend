@@ -9,8 +9,8 @@ export class GroupEntity {
   @CreateDateColumn() 
   createdDate: Date;
   
-  @ManyToOne(type => UserEntity, user => user.id)
-  user: UserEntity;
+  @ManyToOne(type => UserEntity, creator => creator.id)
+  creator: UserEntity;
 
   @Column({
     type: 'text',
