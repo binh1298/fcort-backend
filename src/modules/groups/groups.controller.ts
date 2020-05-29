@@ -1,33 +1,39 @@
-import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Delete, UseGuards } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { GroupDTO } from './group.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('groups')
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
   
+  @UseGuards(JwtAuthGuard)
   @Get()
-  showUsers() {
+  showGroups() {
     return this.groupsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getUser(@Param('id') id: string) {
+  getGroup(@Param('id') id: string) {
     return this.groupsService.findById(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  createUser(@Body() groupDto: GroupDTO) {
+  createGroup(@Body() groupDto: GroupDTO) {
     return this.groupsService.create(groupDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() data: Partial<GroupDTO>) {
+  updateGroup(@Param('id') id: string, @Body() data: Partial<GroupDTO>) {
     return this.groupsService.update(id, data);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  destroyUser(@Param('id') id: string) {
+  destroyGroup(@Param('id') id: string) {
     return this.groupsService.destroy(id);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GroupEntity } from 'src/entities/group.entity';
 import { Repository } from 'typeorm';
@@ -24,9 +24,17 @@ export class GroupsService {
   }
 
   async create(groupDto: GroupDTO): Promise<GroupEntity> {
-    const group = await this.groupsRepository.create(groupDto);
-    await this.groupsRepository.save(group);
-    return group;
+    try {
+      const group = await this.groupsRepository.create(groupDto);
+      await this.groupsRepository.save(group);
+      return group;
+    } catch (error) {
+      const message: String = error.message;      
+      if(message && message.includes('unique')) {
+        throw new HttpException('This group name is taken!', HttpStatus.BAD_REQUEST);
+      }
+      throw new HttpException('Bad server!', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async update(id: string, data: Partial<GroupDTO>) {
