@@ -35,6 +35,12 @@ export class AuthController {
   }
   
   @UseGuards(JwtAuthGuard)
+  @Get('refresh')
+  getNewToken(@Request() req) {
+    return this.authService.refreshToken(req.user.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;

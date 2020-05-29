@@ -27,6 +27,14 @@ export class AuthService {
     };
   }
 
+  async refreshToken (id: string) {
+    const user = await this.usersService.findById(id);
+    const payload = { email: user.email, sub: user.id, fullname: user.fullname };
+    return {
+      token: this.jwtService.sign(payload),
+    };
+  }
+  
   async signup(userDto: UserAuthDTO): Promise<any> {
     const newUser = await this.usersService.signup(userDto);
     const payload = { email: newUser.email, sub: newUser.id, fullname: newUser.fullname };
@@ -34,4 +42,5 @@ export class AuthService {
       token: this.jwtService.sign(payload),
     };
   }
+  
 }
