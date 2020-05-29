@@ -3,7 +3,7 @@ import { GroupsService } from './groups.service';
 import { GroupDTO } from './group.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('groups')
+@Controller()
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
   

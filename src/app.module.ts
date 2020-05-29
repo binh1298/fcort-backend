@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { RouterModule, Routes } from 'nest-router';
 
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -11,6 +12,20 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ResponseDataInterceptor } from './interceptors/response-data.interceptor';
 import { GroupsModule } from './modules/groups/groups.module';
 
+const routes: Routes = [
+  {
+    path: '/auth',
+    module: AuthModule,
+  },
+  {
+    path: '/users',
+    module: UsersModule,
+  },
+  {
+    path: '/groups',
+    module: GroupsModule,
+  },
+];
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -31,6 +46,7 @@ import { GroupsModule } from './modules/groups/groups.module';
         synchronize: true,
       }),
     }),
+    RouterModule.forRoutes(routes), // setup the routes
     UsersModule,
     AuthModule,
     GroupsModule,
