@@ -11,6 +11,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ResponseDataInterceptor } from './interceptors/response-data.interceptor';
 import { GroupsModule } from './modules/groups/groups.module';
+import { configService } from './config/config.service';
 
 const routes: Routes = [
   {
@@ -29,23 +30,7 @@ const routes: Routes = [
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (
-        configService: ConfigService,
-      ): Promise<TypeOrmModuleOptions> => ({
-        type: 'postgres' as 'postgres',
-        host: configService.get<string>('DB_HOSTNAME'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASENAME'),
-        logging: true,
-        autoLoadEntities: true,
-        synchronize: true,
-      }),
-    }),
+    TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     RouterModule.forRoutes(routes), // setup the routes
     UsersModule,
     AuthModule,
