@@ -5,6 +5,7 @@ export interface UserDTO {
   password: string;
   fullname: string;
   avatar: string;
+  isActive: boolean;
 }
 
 export interface UserAuthDTO {

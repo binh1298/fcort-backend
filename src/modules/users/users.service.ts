@@ -11,15 +11,15 @@ export class UsersService {
     private usersRepository: Repository<UserEntity>,
   ) {}
   async findAll(): Promise<UserEntity[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({where: { isActive: true }});
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
-    return await this.usersRepository.findOne({ where: { email } });
+    return await this.usersRepository.findOne({ where: { email, isActive: true } });
   }
 
   async findById(id: string): Promise<UserEntity> {
-    return await this.usersRepository.findOne({ where: { id } });
+    return await this.usersRepository.findOne({ where: { id, isActive: true } });
   }
 
   async remove(id: string): Promise<void> {

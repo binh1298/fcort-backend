@@ -38,6 +38,6 @@ export class UsersController {
 
   @Delete(':id')
   destroyUser(@Param('id') id: string) {
-    return this.usersService.destroy(id);
+    return this.usersService.update(id, { isActive: false });
   }
 }
