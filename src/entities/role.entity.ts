@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, PrimaryColumn } from "typeorm";
 import { UserEntity } from "./user.entity";
 
 @Entity('role') 
 export class RoleEntity {
-  @PrimaryGeneratedColumn('increment')
+
+  @PrimaryColumn('int')
   id: number;
 
   @Column({
