@@ -12,6 +12,7 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ResponseDataInterceptor } from './interceptors/response-data.interceptor';
 import { GroupsModule } from './modules/groups/groups.module';
 import { configService } from './config/config.service';
+import { GroupsFavoritesModule } from './modules/groups-favorites/groups-favorites.module';
 
 const routes: Routes = [
   {
@@ -25,6 +26,12 @@ const routes: Routes = [
   {
     path: '/groups',
     module: GroupsModule,
+    children: [
+      {
+        path: '/favorites',
+        module: GroupsFavoritesModule,
+      },
+    ]
   },
 ];
 @Module({
@@ -35,6 +42,7 @@ const routes: Routes = [
     UsersModule,
     AuthModule,
     GroupsModule,
+    GroupsFavoritesModule
   ],
   controllers: [AppController],
   providers: [

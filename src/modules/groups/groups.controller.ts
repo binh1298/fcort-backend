@@ -16,11 +16,13 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller()
 export class GroupsController {
-  constructor(private readonly groupsService: GroupsService) {}
+  constructor(
+    private readonly groupsService: GroupsService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  showGroups(@Request() req, @Query() query) {
+  getGroups(@Request() req, @Query() query) {
     const { name } = query;
     return this.groupsService.findAll(req.user.id, name);
   }
