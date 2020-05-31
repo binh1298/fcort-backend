@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { GroupEntity } from './group.entity';
 import { RoleEntity } from './role.entity';
@@ -37,6 +37,10 @@ export class UserEntity {
 
   @OneToMany(type => GroupEntity, group => group.creator)
   group: GroupEntity[];
+
+  @ManyToMany(type => GroupEntity)
+  @JoinTable()
+  favorites: GroupEntity[];
 
   @Column("int", { nullable: false, default: 2 })
   roleId: number;
