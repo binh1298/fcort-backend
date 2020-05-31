@@ -1,8 +1,9 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GroupEntity } from 'src/entities/group.entity';
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository, DeleteResult, Like } from 'typeorm';
 import { GroupDTO } from './group.dto';
+import { ILike } from 'src/helpers/ilike.operator';
 
 @Injectable()
 export class GroupsService {
@@ -11,10 +12,15 @@ export class GroupsService {
     private groupsRepository: Repository<GroupEntity>,
   ) {}
 
-  async findAll(creatorId: string): Promise<GroupEntity[]> {
-    return this.groupsRepository.find({ where: { creatorId } });
+  async findAll(creatorId: string, name: string): Promise<GroupEntity[]> {
+    return this.groupsRepository.find({
+      where: {
+        name: ILike(`%${name}%`)
+      },
+      cache: true,
+      take: 5,
+    });
   }
-
   async findById(id: string): Promise<GroupEntity> {
     return await this.groupsRepository.findOne({ where: { id } });
   }

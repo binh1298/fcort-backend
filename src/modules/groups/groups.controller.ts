@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { GroupDTO } from './group.dto';
@@ -19,8 +20,9 @@ export class GroupsController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  showGroups(@Request() req) {
-    return this.groupsService.findAll(req.user.id);
+  showGroups(@Request() req, @Query() query) {
+    const { name } = query;
+    return this.groupsService.findAll(req.user.id, name);
   }
 
   @UseGuards(JwtAuthGuard)
