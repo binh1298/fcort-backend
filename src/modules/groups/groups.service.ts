@@ -1,7 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GroupEntity } from 'src/entities/group.entity';
-import { Repository } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 import { GroupDTO } from './group.dto';
 
 @Injectable()
@@ -48,8 +48,7 @@ export class GroupsService {
     return await this.groupsRepository.findOne({ id });
   }
 
-  async destroy(id: string): Promise<boolean> {
-    await this.groupsRepository.delete({ id });
-    return true;
+  async destroy(creatorId: string, id: string): Promise<DeleteResult> {
+    return await this.groupsRepository.delete({ creatorId, id });
   }
 }

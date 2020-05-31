@@ -43,7 +43,7 @@ export class GroupsController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  destroyGroup(@Param('id') id: string) {
-    return this.groupsService.destroy(id);
+  destroyGroup(@Request() req, @Param('id') id: string) {
+    return this.groupsService.destroy(req.user.id, id);
   }
 }
