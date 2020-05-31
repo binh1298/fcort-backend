@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-
+import path = require('path');
 require('dotenv').config();
 
 class ConfigService {
@@ -41,14 +41,15 @@ class ConfigService {
       logging: true,
       autoLoadEntities: true,
       synchronize: true,
-      entities: ['src/entities/*.entity{.ts,.js}'],
+      // entities: ['src/entities/*.entity{.ts,.js}'],
+      // migrations: ['src/migrations/*.ts'],
 
-      migrations: ['src/migrations/*.ts'],
+      entities: [path.join(__dirname, '../entities/*.entity{.ts,.js}')],
+      migrations: [path.join(__dirname, '../migrations/*{.ts,.js}')],
 
       cli: {
         migrationsDir: 'src/migrations',
       },
-
       ssl: this.isProduction(),
     };
   }
