@@ -11,8 +11,8 @@ export class GroupsService {
     private groupsRepository: Repository<GroupEntity>,
   ) {}
 
-  async findAll(): Promise<GroupEntity[]> {
-    return this.groupsRepository.find();
+  async findAll(creatorId: string): Promise<GroupEntity[]> {
+    return this.groupsRepository.find({ where: { creatorId } });
   }
 
   async findById(id: string): Promise<GroupEntity> {
@@ -23,15 +23,21 @@ export class GroupsService {
     await this.groupsRepository.delete(id);
   }
 
-  async create(groupDto: GroupDTO): Promise<GroupEntity> {
+  async create(creatorId: string, groupDto: GroupDTO): Promise<GroupEntity> {
     try {
-      const group = await this.groupsRepository.create(groupDto);
+      const group = await this.groupsRepository.create({
+        creatorId,
+        ...groupDto,
+      });
       await this.groupsRepository.save(group);
       return group;
     } catch (error) {
-      const message: String = error.message;      
-      if(message && message.includes('unique')) {
-        throw new HttpException('This group name is taken!', HttpStatus.BAD_REQUEST);
+      const message: String = error.message;
+      if (message && message.includes('unique')) {
+        throw new HttpException(
+          'This group name is taken!',
+          HttpStatus.BAD_REQUEST,
+        );
       }
       throw new HttpException('Bad server!', HttpStatus.INTERNAL_SERVER_ERROR);
     }

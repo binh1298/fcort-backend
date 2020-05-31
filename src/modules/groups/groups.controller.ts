@@ -1,4 +1,14 @@
-import { Controller, Get, Param, Post, Body, Put, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  Put,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { GroupDTO } from './group.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -6,11 +16,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 @Controller()
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
-  
+
   @UseGuards(JwtAuthGuard)
   @Get()
-  showGroups() {
-    return this.groupsService.findAll();
+  showGroups(@Request() req) {
+    return this.groupsService.findAll(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -21,8 +31,8 @@ export class GroupsController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  createGroup(@Body() groupDto: GroupDTO) {
-    return this.groupsService.create(groupDto);
+  createGroup(@Request() req, @Body() groupDto: GroupDTO) {
+    return this.groupsService.create(req.user.id, groupDto);
   }
 
   @UseGuards(JwtAuthGuard)
