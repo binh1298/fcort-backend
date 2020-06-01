@@ -13,10 +13,11 @@ export class GroupsService {
   ) {}
 
   async findAll(creatorId: string, name: string): Promise<GroupEntity[]> {
+    console.log(name);
     return this.groupsRepository.find({
-      where: {
+      where: name ? {
         name: ILike(`%${name}%`)
-      },
+      } : {},
       cache: true,
       take: 5,
     });
