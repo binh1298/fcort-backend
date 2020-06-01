@@ -8,7 +8,6 @@ export class GroupsFavoritesController {
     private readonly groupsFavoritesService: GroupsFavoritesService,
   ) {}
 
-  // Favorites
   @UseGuards(JwtAuthGuard)
   @Get()
   getFavoriteGroups(@Request() req) {

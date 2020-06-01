@@ -24,14 +24,12 @@ const routes: Routes = [
     module: UsersModule,
   },
   {
+    path: '/favorites',
+    module: GroupsFavoritesModule,
+  },
+  {
     path: '/groups',
     module: GroupsModule,
-    children: [
-      {
-        path: '/favorites',
-        module: GroupsFavoritesModule,
-      },
-    ]
   },
 ];
 @Module({

@@ -13,11 +13,13 @@ export class GroupsFavoritesService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async findAll(userId: string): Promise<UserEntity[]> {
-    const favorites = await this.usersRepository.find({
+  async findAll(userId: string): Promise<GroupEntity[]> {
+    const userDetails: UserEntity = await this.usersRepository.findOne({
       relations: ['favorites'],
-      where: { userId },
+      where: {
+        id: userId,
+      }
     });
-    return favorites;
+    return userDetails?.favorites;
   }
 }

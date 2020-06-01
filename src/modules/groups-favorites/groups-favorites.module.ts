@@ -10,6 +10,4 @@ import { UserEntity } from 'src/entities/user.entity';
   controllers: [GroupsFavoritesController],
   providers: [GroupsFavoritesService]
 })
-export class GroupsFavoritesModule {
-  
-}
+export class GroupsFavoritesModule {}
