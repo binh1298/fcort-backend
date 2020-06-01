@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { GroupEntity } from 'src/entities/group.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -21,5 +21,23 @@ export class GroupsFavoritesService {
       }
     });
     return userDetails?.favorites;
+  }
+
+  async addFavoriteGroup(userId: string, groupId: string): Promise<GroupEntity[]> {
+    const user: UserEntity = await this.usersRepository.findOne({
+      relations: ['favorites'],
+      where: {
+        id: userId,
+      }
+    });
+    
+    const duplicateGroup = user.favorites.find((group) => group.id === groupId);
+    if(duplicateGroup) throw new HttpException('This group is already one of your favorites', HttpStatus.BAD_REQUEST);
+
+    const group: GroupEntity = await this.groupsRepository.findOne({id: groupId});
+    user.favorites.push(group);
+    const updatedUser = await this.usersRepository.save(user);
+
+    return updatedUser.favorites;
   }
 }
