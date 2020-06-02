@@ -15,9 +15,6 @@ export class GroupEntity {
   @ManyToOne(type => UserEntity, creator => creator.id)
   @JoinColumn({ name: "creatorId" })
   creator: UserEntity;
-
-  @ManyToMany(type => UserEntity, user => user.favorites)
-  users: UserEntity[];
     
   @Column({
     type: 'text',
