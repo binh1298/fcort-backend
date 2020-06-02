@@ -13,6 +13,7 @@ import { ResponseDataInterceptor } from './interceptors/response-data.intercepto
 import { GroupsModule } from './modules/groups/groups.module';
 import { configService } from './config/config.service';
 import { GroupsFavoritesModule } from './modules/groups-favorites/groups-favorites.module';
+import { MessagesModule } from './modules/messages/messages.module';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
     UsersModule,
     AuthModule,
     GroupsModule,
-    GroupsFavoritesModule
+    GroupsFavoritesModule,
+    MessagesModule
   ],
   controllers: [AppController],
   providers: [
