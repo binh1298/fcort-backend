@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import { UserEntity } from './user.entity';
 
 @Entity('group')
@@ -16,6 +16,10 @@ export class GroupEntity {
   @JoinColumn({ name: "creatorId" })
   creator: UserEntity;
     
+  @ManyToMany(type => UserEntity)
+  @JoinTable()
+  members: UserEntity[];
+
   @Column({
     type: 'text',
     unique: true,
