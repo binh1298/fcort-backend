@@ -51,6 +51,8 @@ export class GroupMembersService {
       }
     });
     
+    if(group.creatorId === memberId) throw new HttpException('Group creator can NOT be removed from group', HttpStatus.BAD_REQUEST);
+    
     group.members = group.members.filter((user) => user.id !== memberId);
     const updatedGroup = await this.groupsRepository.save(group);
 
