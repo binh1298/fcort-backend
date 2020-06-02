@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Query, Request, Post, Param } from '@nestjs/common';
+import { Controller, UseGuards, Get, Query, Request, Post, Param, Delete } from '@nestjs/common';
 import { GroupsFavoritesService } from './groups-favorites.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -16,7 +16,13 @@ export class GroupsFavoritesController {
 
   @UseGuards(JwtAuthGuard)
   @Post(':id')
-  addFavoriteGroups(@Request() req, @Param('id') groupId: string) {
+  addFavoriteGroup(@Request() req, @Param('id') groupId: string) {
     return this.groupsFavoritesService.addFavoriteGroup(req.user.id, groupId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  deleteFavoriteGroup(@Request() req, @Param('id') groupId: string) {
+    return this.groupsFavoritesService.deleteFavoriteGroup(req.user.id, groupId);
   }
 }

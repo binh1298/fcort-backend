@@ -40,4 +40,18 @@ export class GroupsFavoritesService {
 
     return updatedUser.favorites;
   }
+
+  async deleteFavoriteGroup(userId: string, groupId: string): Promise<GroupEntity[]> {
+    const user: UserEntity = await this.usersRepository.findOne({
+      relations: ['favorites'],
+      where: {
+        id: userId,
+      }
+    });
+    
+    user.favorites = user.favorites.filter((group) => group.id !== groupId);
+    const updatedUser = await this.usersRepository.save(user);
+
+    return updatedUser.favorites;
+  }
 }
