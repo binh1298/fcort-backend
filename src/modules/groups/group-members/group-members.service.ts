@@ -22,7 +22,7 @@ export class GroupMembersService {
       cache: true,
     });
 
-    return group.members;
+    return group?.members;
   }
   
   async addMember(groupId: string, memberId: string): Promise<UserEntity[]> {
