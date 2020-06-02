@@ -4,12 +4,14 @@ import { GroupEntity } from 'src/entities/group.entity';
 import { Repository, DeleteResult, Like } from 'typeorm';
 import { GroupDTO } from './group.dto';
 import { ILike } from 'src/helpers/ilike.operator';
+import { GroupMembersService } from './group-members/group-members.service';
 
 @Injectable()
 export class GroupsService {
   constructor(
     @InjectRepository(GroupEntity)
     private groupsRepository: Repository<GroupEntity>,
+    private readonly groupMembersService: GroupMembersService,
   ) {}
 
   async findAll(creatorId: string, name: string): Promise<GroupEntity[]> {
@@ -18,7 +20,6 @@ export class GroupsService {
         name: ILike(`%${name}%`)
       } : {},
       cache: true,
-      take: 5,
     });
   }
   async findById(id: string): Promise<GroupEntity> {
@@ -36,6 +37,8 @@ export class GroupsService {
         ...groupDto,
       });
       await this.groupsRepository.save(group);
+
+      await this.groupMembersService.addMember(group.id, creatorId);
       return group;
     } catch (error) {
       const message: String = error.message;
