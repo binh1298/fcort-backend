@@ -20,6 +20,7 @@ export class GroupsService {
         name: ILike(`%${name}%`)
       } : {},
       cache: true,
+      take: name ? 5 : null
     });
   }
   async findById(id: string): Promise<GroupEntity> {
