@@ -8,9 +8,11 @@ import { RouterModule, Routes } from 'nest-router';
 import { configService } from './config/config.service';
 
 import { UsersModule } from './modules/users/users.module';
+import { GroupsFavoritesModule } from './modules/groups-favorites/groups-favorites.module';
+
 import { AuthModule } from './modules/auth/auth.module';
 import { GroupsModule } from './modules/groups/groups.module';
-import { GroupsFavoritesModule } from './modules/groups-favorites/groups-favorites.module';
+import { GroupMembersModule } from './modules/groups/group-members/group-members.module';
 import { MessagesModule } from './modules/messages/messages.module';
 
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
@@ -33,6 +35,12 @@ const routes: Routes = [
   {
     path: '/groups',
     module: GroupsModule,
+    children: [
+      {
+        path: '/:groupId/members',
+        module: GroupMembersModule,
+      }
+    ]
   },
 ];
 @Module({
@@ -44,7 +52,8 @@ const routes: Routes = [
     AuthModule,
     GroupsModule,
     GroupsFavoritesModule,
-    MessagesModule
+    MessagesModule,
+    GroupMembersModule
   ],
   controllers: [AppController],
   providers: [
