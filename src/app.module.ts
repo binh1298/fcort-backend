@@ -18,6 +18,7 @@ import { MessagesModule } from './modules/messages/messages.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ResponseDataInterceptor } from './interceptors/response-data.interceptor';
+import { ChatGateway } from './modules/chat/chat.gateway';
 
 const routes: Routes = [
   {
@@ -39,8 +40,8 @@ const routes: Routes = [
       {
         path: '/:groupId/members',
         module: GroupMembersModule,
-      }
-    ]
+      },
+    ],
   },
 ];
 @Module({
@@ -53,10 +54,11 @@ const routes: Routes = [
     GroupsModule,
     GroupsFavoritesModule,
     MessagesModule,
-    GroupMembersModule
+    GroupMembersModule,
   ],
   controllers: [AppController],
   providers: [
+    ChatGateway,
     AppService,
     {
       provide: APP_FILTER,
