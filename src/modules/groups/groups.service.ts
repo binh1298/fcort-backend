@@ -6,7 +6,7 @@ import { GroupDTO } from './group.dto';
 import { ILike } from 'src/helpers/ilike.operator';
 import { GroupMembersService } from './group-members/group-members.service';
 import { GroupTypes } from 'src/constants/constant';
-import { format } from 'path';
+
 @Injectable()
 export class GroupsService {
   constructor(
