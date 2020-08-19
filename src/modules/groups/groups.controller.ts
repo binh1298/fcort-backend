@@ -34,7 +34,7 @@ export class GroupsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('onetoone/')
+  @Post('/onetoone')
   createOneToOneGroup(@Request() req, @Body() groupDto: GroupDTO) {
     return this.groupsService.createOneToOne(req.user.id, groupDto);
   }
