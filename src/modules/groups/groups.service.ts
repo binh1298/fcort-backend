@@ -5,7 +5,8 @@ import { Repository, DeleteResult, Like } from 'typeorm';
 import { GroupDTO } from './group.dto';
 import { ILike } from 'src/helpers/ilike.operator';
 import { GroupMembersService } from './group-members/group-members.service';
-
+import { GroupTypes } from 'src/constants/constant';
+import { format } from 'path';
 @Injectable()
 export class GroupsService {
   constructor(
@@ -32,6 +33,29 @@ export class GroupsService {
   }
 
   async create(creatorId: string, groupDto: GroupDTO): Promise<GroupEntity> {
+    try {
+      const group = await this.groupsRepository.create({
+        creatorId,
+        ...groupDto,
+      });
+      await this.groupsRepository.save(group);
+
+      await this.groupMembersService.addMember(group.id, creatorId);
+      return group;
+    } catch (error) {
+      const message: String = error.message;
+      if (message && message.includes('unique')) {
+        throw new HttpException(
+          'This group name is taken!',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      throw new HttpException('Bad server!', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async createOneToOne(creatorId: string, groupDto: GroupDTO): Promise<GroupEntity> {
+    groupDto.type = GroupTypes.OneToOne;
     try {
       const group = await this.groupsRepository.create({
         creatorId,

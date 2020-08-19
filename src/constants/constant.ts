@@ -1,4 +1,4 @@
 export enum GroupTypes{
-    OneToOne,
-    ManyToMany
-  }
+    OneToOne = 0,
+    OneToMany = 1
+}

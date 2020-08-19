@@ -7,9 +7,7 @@ export class RoleEntity {
   @PrimaryColumn('int')
   id: number;
 
-  @Column({
-    type: 'text',
-  })
+  @Column()
   name: string;
 
   @OneToMany(type => UserEntity, user => user.id)

@@ -12,22 +12,19 @@ export class UserEntity {
   createdDate: Date;
 
   @Column({
-    type: 'text',
     unique: true,
   })
   email: string;
 
-  @Column('text')
+  @Column()
   password: string;
 
   @Column({
-    type: 'text',
     nullable: true,
   })
   fullname: string;
 
   @Column({
-    type: 'text',
     nullable: true,
   })
   avatar: string;

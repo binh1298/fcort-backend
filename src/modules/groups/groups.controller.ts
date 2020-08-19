@@ -34,11 +34,17 @@ export class GroupsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('onetoone/')
+  createOneToOneGroup(@Request() req, @Body() groupDto: GroupDTO) {
+    return this.groupsService.createOneToOne(req.user.id, groupDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   createGroup(@Request() req, @Body() groupDto: GroupDTO) {
     return this.groupsService.create(req.user.id, groupDto);
   }
-
+ 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   updateGroup(@Param('id') id: string, @Body() data: Partial<GroupDTO>) {

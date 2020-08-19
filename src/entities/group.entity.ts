@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import { UserEntity } from './user.entity';
+import { GroupTypes } from 'src/constants/constant';
 
 @Entity('group')
 export class GroupEntity {
@@ -9,7 +10,7 @@ export class GroupEntity {
   @CreateDateColumn() 
   createdDate: Date;
   
-  @Column('text', { nullable: false })
+  @Column({ nullable: false })
   creatorId: string;
 
   @ManyToOne(type => UserEntity, creator => creator.id)
@@ -21,11 +22,13 @@ export class GroupEntity {
   members: UserEntity[];
 
   @Column({
-    type: 'text',
     unique: true,
   })
   name: string;
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({ default: GroupTypes.OneToMany, nullable:false })
+  type: number;
 }
