@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable, BeforeUpdate } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { GroupEntity } from './group.entity';
 import { RoleEntity } from './role.entity';
@@ -46,7 +46,10 @@ export class UserEntity {
   @JoinColumn({ name: "roleId" })
   role: RoleEntity;
 
-  @BeforeInsert()  async hashPassword() {
+  @BeforeInsert()  async hashPasswordCreate() {
+    this.password = await bcrypt.hash(this.password, 10);  
+  }
+  @BeforeUpdate() async hashPasswordUpdate() {
     this.password = await bcrypt.hash(this.password, 10);  
   }
 }

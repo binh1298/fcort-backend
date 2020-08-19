@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDTO } from '../auth/dtos/user.dto';
-
+import * as bcrypt from 'bcrypt';
 @Controller()
 export class UsersController {
   constructor(
